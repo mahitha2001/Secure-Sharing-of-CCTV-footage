@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Login - Secure Sharing of CCTV Feed</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="./static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="./static/css/login_style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">CCTV Website</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Login</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">Navbar Link</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <div class="login">
+        <form>
+            <!--   con = Container  for items in the form-->
+            <div class="con">
+                <!--     Start  header Content  -->
+                <header class="head-form">
+                    <h2>Log In</h2>
+                    <!--     A welcome message or an explanation of the login form -->
+                    <p>Enter credentials to access CCTV Footages</p>
+                </header>
+                <!--     End  header Content  -->
+                <br>
+                <div class="field-set">
+
+                    <!--   user name -->
+                    <span class="input-item">
+                        <i class="fa fa-user-circle"></i>
+                    </span>
+                    <!--   user name Input-->
+                    <input class="form-input" id="txt-input" type="text" placeholder="@UserName" required>
+
+                    <br>
+
+                    <!--   Password -->
+
+                    <span class="input-item">
+                        <i class="fa fa-key"></i>
+                    </span>
+                    <!--   Password Input-->
+                    <input class="form-input" type="password" placeholder="Password" id="pwd" name="password" required>
+
+                    <!--      Show/hide password  -->
+                    <span>
+                        <i class="fa fa-eye" aria-hidden="true" type="button" id="eye"></i>
+                    </span>
+
+
+                    <br>
+                    <!--        buttons -->
+                    <!--      button LogIn -->
+                    <button class="log-in"> Log In </button>
+                </div>
+
+                <!--   other buttons -->
+                <div class="other">
+                    <!--      Forgot Password button-->
+                    <button class="btn submits frgt-pass">Forgot Password</button>
+                    <!--     Sign Up button -->
+                    <button class="btn submits sign-up">Sign Up
+                        <!--         Sign Up font icon -->
+                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    </button>
+                    <!--      End Other the Division -->
+                </div>
+
+                <!--   End Conrainer  -->
+            </div>
+
+            <!-- End Form -->
+        </form>
+    </div>
+</body>
+<script src="./static/js/login.js"></script>
+
+</html>
