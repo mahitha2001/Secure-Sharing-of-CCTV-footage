@@ -11,17 +11,56 @@
   <link href="./static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
   <link href="./static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+
+  button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+  }
+
+  button:hover,
+  a:hover {
+    opacity: 0.7;
+  }
+</style>
 
 <body>
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">CCTV Website</a>
+      {% if g.user==None %}
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Login</a></li>
+        <li><a href="/login">Login</a></li>
       </ul>
-
-      <ul id="nav-mobile" class="sidenav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+      {% else %}
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/logout">Logout</a></li>
+      </ul> {% endif %}
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
@@ -36,42 +75,75 @@
           <br>
         </h5>
       </div>
+      {% if g.user!= None %}
+      <div class="card">
+        <img src="{{url_for('static', filename='user.jpeg')}}"" alt=" User" style="width:100%">
+        <h1>Hi! {{g.user.username}}</h1>
+        <p class="title">Sub Inspector , Police</p>
+        <p>User id - #{{g.user.id}}</p>
+        <div style="margin: 24px 0;">
+          <a href="#"><i class="fa fa-dribbble"></i></a>
+          <a href="#"><i class="fa fa-linkedin"></i></a>
+          <a href="#"><i class="fa fa-facebook"></i></a>
+        </div>
+        <p><button>Contact</button></p>
+      </div>
+      {% endif %}
 
       <div class="row">
-        <form action='/predict' method="POST" class="col s12">
-          <div class="row">
-            <div class="input-field col s4">
-              <label for="first_name"><b>Month</b></label>
-              <br>
-              <input id="first_name" name='Temperature' type="text" class="validate">
-            </div>
-            <div class="input-field col s4">
-
-              <label for="last_name"><b>Date </b></label>
-              <br>
-              <input id="last_name" name="Oxygen" type="text" class="validate">
-
-            </div>
-
-            <div class="input-field col s4">
-              <label for="_name"><b>Time</b></label>
-              <br>
-              <input id="_name" name="Humidity" type="text" class="validate">
-
-            </div>
-
+        <!-- <form action='#' method="POST" class="col s12"> -->
+        <div class="row">
+          <div class="input-field col s6">
+            &nbsp; <label for="month"><b>Month</b></label>
+            <br><br>
+            <input type="month" id="bdaymonth" name="bdaymonth">
           </div>
+          <div class="input-field col s4">
 
-          <div class="row center">
-
-            <button type="submit" class="btn-large waves-effect waves-light orange">Predict Probability</button>
+            <label for="last_name"><b>Date </b></label>
+            <br>
+            <input type="number" min="0" max="30" required="true" message="you can give date of 0 to 30">
           </div>
-        </form>
+          <!-- encry
+          <div class="input-field col s4">
+            <label for="_name"><b>Time</b></label>
+            <br>
+            <input id="_name" name="Humidity" type="text" class="validate">
+
+          </div> -->
+
+        </div>
+
+        <div class="row center">
+          <button type="submit" onclick="playVid()" class="btn-large waves-effect waves-light orange">View
+            Video</button>
+          <br><br>
+          <button type="submit" class="btn-large waves-effect waves-light orange">
+            <a href="{{url_for('static', filename='encryptedvideo.mp4')}}" download>Download video</a> </button>
+
+        </div>
+        <!-- </form> -->
       </div>
 
-      <br>
-      <h4 align="center" <b>{{pred}}</b></h4>
-      <br>
+      <!-- <img src="{{url_for('static', filename='ppl1.png')}}" /> -->
+      <div id="video" style="display:none;">
+        {% if g.user==None %}
+        <video id="myVideo" width="" height="976">
+          <source src="{{url_for('static', filename='encryptedvideo.mp4')}}" type="video/mp4">
+          Your browser does not support HTML5 video.
+          <a href="{{url_for('static', filename='encryptedvideo.mp4')}}" download>Download video</a> file
+
+        </video>
+
+        {% else %}
+        <video id="myVideo" width="920" height="976">
+          <source src="{{url_for('static', filename='ppl2.mp4')}}" type="video/mp4">
+          Your browser does not support HTML5 video.
+          <a href="{{url_for('static', filename='ppl2.mp4')}}" download>Download video</a> .
+
+        </video>
+        {% endif %}
+      </div>
 
     </div>
   </div>
@@ -86,27 +158,31 @@
             <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
             <h5 class="center">Crime Reports</h5>
 
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our
-              custom components. Additionally, we refined animations and transitions to provide a smoother experience
-              for developers.</p>
+            <p class="light">At the face of it, CCTV appears as one of the most effective ways to prevent occurrence of
+              crimes. People with plans to undertake criminal activities cannot go ahead because they can appear on the
+              monitoring screens and face trial. Evidence deems circumstantial and accurate when the CCTVs function in
+              security.</p>
           </div>
 
           <button class="btn waves-effect waves-light" type="submit" name="action">Check
-            <i class="material-icons right">send</i>
           </button>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
             <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+            <h2 class="center light-blue-text"></h2>
             <h5 class="center">Crime Prediction</h5>
 
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework
-              that incorporates components and animations that provide more feedback to users. Additionally, a single
-              underlying responsive system across all platforms allow for a more unified user experience.</p>
+            <p class="light">n a 2013 report, the British Security Industry Association (BSIA) estimated there were
+              between 4-5.9 million cameras in the UK, but as recently as 2020, most people appear to agree on a figure
+              of 5.2 million CCTV cameras nationwide. Britain has more surveillance activity than any other European
+              country per capita - latest CCTV statistics show that there is one security camera for every 13 people.
+            </p>
           </div>
-          <a href="/crime"> <button class="btn waves-effect waves-light" name="">
-              <i class="material-icons right">Predict Crime</i><button></a>
+
+          <button class="btn waves-effect waves-light" type="submit" name="action">Check
+          </button>
         </div>
 
         <div class="col s12 m4">
@@ -118,11 +194,12 @@
               get started. We are also always open to feedback and can answer any questions a user may have about
               Materialize.</p>
           </div>
+
+          <button class="btn waves-effect waves-light" type="submit" name="action">Check
+          </button>
         </div>
 
-        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-          <i class="material-icons right">send</i>
-        </button>
+
       </div>
 
     </div>
@@ -134,38 +211,27 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
-            full time job. Any amount would help support and continue development on this project and is greatly
+          <h5 class="white-text">About us</h5>
+          <p class="grey-text text-lighten-4">We are a group of 4 final year students that have created this project
+            report based on the use case application given by Surat municipality.
+            Any help would be supportive and continue development on this project and is greatly
             appreciated.</p>
 
 
         </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
+        <div class="col l6 s20">
+          <h5 class="white-text">Team</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            <li><a class="white-text" href="#!">U19CS076 KRITHIKHA BALAMURUGAN</a></li>
+            <li><a class="white-text" href="#!">U19CS078 NANDHINI K.S</a></li>
+            <li><a class="white-text" href="#!">U19CS068 SANKIRTANA G.V</a></li>
+            <li><a class="white-text" href="#!">U19CS066 MAHITHA GURALLA</a></li>
           </ul>
         </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
+
       </div>
     </div>
-    <div class="footer-copyright">
-      <div class="container">
-        Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
+
   </footer>
 
 
@@ -173,7 +239,26 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src=".js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script>
+    var vid = document.getElementById("myVideo");
 
+    function playVid() {
+      var x = document.getElementById("video");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+      vid.play();
+    }
+
+    function pauseVid() {
+      vid.pause();
+    } 
+  </script>
+
+
+  </script>
 </body>
 
 </html>

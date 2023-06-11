@@ -173,7 +173,7 @@ button {
 }
 
 /* Submits */
-.submits {
+#submit {
     width: 48%;
     display: inline-block;
     float: left;
@@ -192,13 +192,13 @@ button {
 
 
 /* buttons hover */
-button:hover {
+button {
     transform: translatey(3px);
     box-shadow: none;
 }
 
 /* buttons hover Animation */
-button:hover {
+button {
     animation: ani9 0.4s ease-in-out infinite alternate;
 }
 
